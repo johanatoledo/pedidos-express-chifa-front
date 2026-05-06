@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fff7ed;
+  --foreground: #171717;
+
+  --chifa-rojo: #b91c1c;
+  --chifa-rojo-oscuro: #7f1d1d;
+  --chifa-dorado: #d4a017;
+  --chifa-crema: #fff7ed;
+  --chifa-negro: #1f1f1f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+::selection {
+  background: var(--chifa-rojo);
+  color: white;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #ffedd5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #b91c1c;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #7f1d1d;
+}
+
+/* Utilidades propias */
+.chifa-container {
+  width: min(100% - 2rem, 1280px);
+  margin-inline: auto;
+}
+
+.chifa-card-hover {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.chifa-card-hover:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+}
