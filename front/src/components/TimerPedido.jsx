@@ -37,21 +37,21 @@ export default function TimerPedido({ creadoEn, estado }) {
 
   if (estado === "listo" || tiempoRestante <= 0) {
     return (
-      <div className="rounded-3xl bg-green-100 p-6 text-center ring-1 ring-green-200">
-        <p className="text-lg font-black text-green-700">
-          Tu pedido está listo para retirar
+      <div className="rounded-xl px-4 py-2 bg-green-100 p-4  text-center ring-1 ring-green-200">
+        <p className="text-sm  font-black text-green-700">
+          Tu pedido está listo
         </p>
       </div>
     );
   }
 
   return (
-    <div className="rounded-3xl bg-yellow-100 p-6 text-center ring-1 ring-yellow-200">
+    <div className="rounded-3xl bg-white p-6 text-center border-none ">
       <p className="text-sm font-bold text-yellow-700">
         Tiempo estimado de preparación
       </p>
 
-      <p className="mt-2 text-5xl font-black text-yellow-900">
+      <p className="mt-2 text-xl font-black text-yellow-900">
         {minutos}:{segundos.toString().padStart(2, "0")}
       </p>
     </div>

@@ -33,7 +33,7 @@ export default function CartBar({ carrito }) {
           href="/carrito"
           className="rounded-2xl bg-red-700 px-5 py-3 text-sm font-black text-white hover:bg-red-800"
         >
-          Ver carrito
+          Ver pedido
         </Link>
       </div>
     </div>

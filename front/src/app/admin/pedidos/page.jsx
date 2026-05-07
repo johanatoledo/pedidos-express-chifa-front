@@ -47,18 +47,14 @@ export default function AdminPedidosPage() {
       <section className="mx-auto max-w-7xl px-6 py-10">
         <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
-            <h1 className="text-4xl font-black text-gray-950">
+            <h1 className="text-4xl font-black text-gray-950 ">
               Panel de pedidos
             </h1>
-
-            <p className="mt-2 text-gray-600">
-              Administra los pedidos activos del restaurante.
-            </p>
           </div>
 
           <button
             onClick={cargarPedidos}
-            className="rounded-2xl bg-gray-950 px-5 py-3 font-black text-white hover:bg-gray-800"
+            className="rounded-2xl bg-red-700 px-5 py-3 font-black text-white hover:bg-gray-800"
           >
             Actualizar
           </button>

@@ -20,7 +20,7 @@ export default function AdminPedidosTable({ pedidos, onEntregar }) {
     <div className="overflow-hidden rounded-3xl bg-white shadow-xl">
       <div className="overflow-x-auto">
         <table className="w-full min-w-[900px] border-collapse">
-          <thead className="bg-gray-950 text-white">
+          <thead className="bg-red-700 text-white">
             <tr>
               <th className="p-4 text-left">Cliente</th>
               <th className="p-4 text-left">Pedido</th>
@@ -60,16 +60,18 @@ export default function AdminPedidosTable({ pedidos, onEntregar }) {
                   </td>
 
                   <td className="p-4">
-                    <span className="rounded-full bg-yellow-100 px-3 py-1 text-xs font-black uppercase text-yellow-800">
+                    <span className="rounded-xl bg-yellow-100 px-3 py-1 text-xs font-black uppercase text-yellow-800">
                       {pedido.estado}
                     </span>
                   </td>
 
                   <td className="p-4">
-                    <div className="w-48">
+                    <div className="w-30">
                       <TimerPedido
+                      
                         creadoEn={pedido.creado_en}
                         estado={pedido.estado}
+                        
                       />
                     </div>
                   </td>

@@ -1,10 +1,12 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || BACKEND_LOCAL;   
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4001";   
 
 export async function crearPedido(data) {
   const response = await fetch(`${API_URL}/api/pedidos`, {
     method: "POST",
+    mode: 'cors',
     headers: {
       "Content-Type": "application/json",
+      'Bypass-Tunnel-Reminder': 'true'
     },
     body: JSON.stringify(data),
   });
@@ -17,15 +19,28 @@ export async function crearPedido(data) {
 }
 
 export async function obtenerPedido(id) {
-  const response = await fetch(`${API_URL}/api/pedidos/${id}`, {
-    cache: "no-store",
-  });
+  const url = `${API_URL}/api/pedidos/${id}`;
+  console.log("Intentando fetch a:", url); // Verifica si la URL es correcta
 
-  if (!response.ok) {
-    throw new Error("No se pudo obtener el pedido");
+  try {
+    const response = await fetch(url, { cache: "no-store" });
+
+    if (!response.ok) {
+      // ESTO NOS DIRÁ EL ERROR REAL (404, 500, etc)
+      const errorData = await response.json().catch(() => ({}));
+      console.error("Error del servidor detallado:", {
+        status: response.status,
+        statusText: response.statusText,
+        mensajeServidor: errorData.message
+      });
+      throw new Error(errorData.message || "No se pudo obtener el pedido");
+    }
+
+    return response.json();
+  } catch (err) {
+    console.error("Error de red o de código:", err);
+    throw err;
   }
-
-  return response.json();
 }
 
 export async function obtenerPedidosAdmin() {

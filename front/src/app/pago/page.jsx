@@ -34,10 +34,10 @@ export default function PagoPage() {
       setCargando(true);
 
       const data = {
-        clienteNombre,
+       cliente_nombre: clienteNombre,
         productos: carrito,
-        total,
-        yapeOperacion: yapeOperacion.trim(),
+        total:total,
+        yape_operacion: yapeOperacion.trim(),
       };
 
       const respuesta = await crearPedido(data);

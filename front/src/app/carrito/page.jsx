@@ -52,11 +52,11 @@ export default function CarritoPage() {
       <Navbar />
 
       <section className="mx-auto max-w-4xl px-6 py-10">
-        <h1 className="text-4xl font-black text-gray-950">Tu carrito</h1>
+        <h1 className="text-4xl font-black text-gray-950">Tu pedido</h1>
 
         <div className="mt-8 rounded-3xl bg-white p-6 shadow-xl">
           {carrito.length === 0 ? (
-            <p className="text-gray-600">Tu carrito está vacío.</p>
+            <p className="text-gray-600">Aun no tienes pedidos.</p>
           ) : (
             <div className="space-y-4">
               {carrito.map((item) => (
@@ -107,7 +107,7 @@ export default function CarritoPage() {
                 onClick={continuarPago}
                 className="rounded-2xl bg-red-700 px-6 py-3 font-black text-white hover:bg-red-800"
               >
-                Continuar al pago
+                Pagar
               </button>
             </div>
           </div>

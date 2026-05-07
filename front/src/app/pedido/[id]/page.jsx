@@ -1,34 +1,45 @@
 "use client";
-
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import TimerPedido from "@/components/TimerPedido";
 import { obtenerPedido } from "@/services/pedidoService";
 
-export default function PedidoDetallePage({ params }) {
-  const { id } = params;
+export default function PedidoDetallePage() {
+  const params = useParams();
+  const id = params?.id; // Usamos optional chaining por seguridad
 
   const [pedido, setPedido] = useState(null);
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
+    // 1. Evitamos ejecutar la lógica si aún no tenemos el ID
+    if (!id) return;
+
     const cargarPedido = async () => {
       try {
         const data = await obtenerPedido(id);
         setPedido(data);
       } catch (error) {
-        console.error(error);
+        console.error("Error al cargar el pedido:", error);
       } finally {
         setCargando(false);
       }
     };
 
+    // Ejecución inmediata
     cargarPedido();
 
-    const intervalo = setInterval(cargarPedido, 10000);
+    // 2. Configuramos el intervalo para el seguimiento en tiempo real
+    const intervalo = setInterval(() => {
+      cargarPedido();
+    }, 10000); // 10 segundos es ideal para no saturar el servidor
 
+    // 3. Limpieza: Importante para evitar fugas de memoria
     return () => clearInterval(intervalo);
-  }, [id]);
+  }, [id]); // El efecto se reinicia si el ID cambia
+
+ 
 
   if (cargando) {
     return (
@@ -59,11 +70,11 @@ export default function PedidoDetallePage({ params }) {
 
       <section className="mx-auto max-w-3xl px-6 py-10">
         <div className="rounded-3xl bg-white p-8 shadow-xl">
-          <p className="text-sm font-black uppercase text-red-700">
+          <p className="text-sm font-black uppercase text-green-700">
             Pedido generado correctamente
           </p>
 
-          <h1 className="mt-2 text-5xl font-black text-gray-950">
+          <h1 className="mt-2 text-2xl font-black text-gray-950">
             Pedido #{pedido.id}
           </h1>
 
