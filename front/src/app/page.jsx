@@ -1,60 +1,104 @@
-import Link from "next/link";
+"use client";
+import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
+import ProductCard from "@/components/ProductCard";
+import CartBar from "@/components/CartBar";
+import { productos } from "@/data/productos";
 
-export default function HomePage() {
+export default function HomeMenuPage() {
+  const [carrito, setCarrito] = useState([]);
+  const [categoriaActiva, setCategoriaActiva] = useState("Todos");
+
+  useEffect(() => {
+    const carritoGuardado = localStorage.getItem("carrito");
+
+    if (carritoGuardado) {
+      setCarrito(JSON.parse(carritoGuardado));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+  }, [carrito]);
+
+  const categorias = ["Todos", ...new Set(productos.map((p) => p.categoria))];
+
+  const productosFiltrados =
+    categoriaActiva === "Todos"
+      ? productos
+      : productos.filter((producto) => producto.categoria === categoriaActiva);
+
+  const agregarProducto = (producto) => {
+    setCarrito((prev) => {
+      const existe = prev.find((item) => item.id === producto.id);
+
+      if (existe) {
+        return prev.map((item) =>
+          item.id === producto.id
+            ? { ...item, cantidad: item.cantidad + 1 }
+            : item
+        );
+      }
+
+      return [...prev, { ...producto, cantidad: 1 }];
+    });
+  };
+
+  const eliminarProducto = (id) => {
+    setCarrito((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  const obtenerCantidad = (id) => {
+    const item = carrito.find((producto) => producto.id === id);
+    return item ? item.cantidad : 0;
+  };
+
   return (
-    <main className="min-h-screen bg-orange-50">
+    <main className="min-h-screen bg-orange-50 pb-32">
       <Navbar />
 
-      <section className="mx-auto grid min-h-[85vh] max-w-7xl items-center gap-10 px-6 py-16 lg:grid-cols-2">
-        <div>
-          <span className="rounded-full bg-red-100 px-4 py-2 text-sm font-black text-red-700">
-            Menú digital para restaurante
-          </span>
-
-          <h1 className="mt-6 text-5xl font-black leading-tight text-gray-950 md:text-6xl">
-            Pide rápido, paga con Yape y retira sin esperar.
+      <section className="mx-auto max-w-7xl px-6 py-10">
+        <div className="text-center">
+          <h1 className="text-4xl font-black text-gray-950 md:text-5xl">
+            Nuestro Menú
           </h1>
 
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-gray-600">
-            Explora el menú, agrega tus platos favoritos al carrito y sigue el
-            estado de tu pedido en tiempo real.
+          <p className="mx-auto mt-4 max-w-2xl text-gray-600">
+            Elige tus platos y bebidas favoritas. Tu pedido se preparará en
+            aproximadamente 20 minutos.
           </p>
-
-          <div className="mt-8 flex flex-wrap gap-4">
-            <Link
-              href="/menu"
-              className="rounded-2xl bg-red-700 px-6 py-4 font-black text-white shadow-xl hover:bg-red-800"
-            >
-              Ver menú
-            </Link>
-
-            <Link
-              href="/admin/pedidos"
-              className="rounded-2xl border border-red-200 bg-white px-6 py-4 font-black text-red-700 hover:bg-red-50"
-            >
-              Panel admin
-            </Link>
-          </div>
         </div>
 
-        <div className="rounded-[2rem] bg-white p-6 shadow-2xl">
-          <div className="rounded-[1.5rem] bg-gradient-to-br from-red-700 to-yellow-500 p-8 text-white">
-            <p className="text-sm font-black uppercase tracking-[0.3em]">
-              Chifa Express
-            </p>
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
+          {categorias.map((categoria) => (
+            <button
+              key={categoria}
+              onClick={() => setCategoriaActiva(categoria)}
+              className={`rounded-full px-5 py-2 text-sm font-black transition ${
+                categoriaActiva === categoria
+                  ? "bg-red-700 text-white"
+                  : "bg-white text-gray-700 hover:bg-red-50"
+              }`}
+            >
+              {categoria}
+            </button>
+          ))}
+        </div>
 
-            <h2 className="mt-20 text-4xl font-black">
-              Lomo, chaufa, mostrito y bebidas listas para pedir.
-            </h2>
-
-            <p className="mt-6 text-white/90">
-              Sistema ideal para restaurantes pequeños que quieren reducir la
-              espera del cliente y ordenar mejor la atención.
-            </p>
-          </div>
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {productosFiltrados.map((producto) => (
+            <ProductCard
+              key={producto.id}
+              producto={producto}
+              cantidad={obtenerCantidad(producto.id)}
+              onAgregar={agregarProducto}
+              onEliminar={eliminarProducto}
+            />
+          ))}
         </div>
       </section>
+
+      <CartBar carrito={carrito} />
     </main>
   );
 }
