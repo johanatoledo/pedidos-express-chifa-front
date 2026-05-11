@@ -26,12 +26,13 @@ export async function obtenerPedido(id) {
     const response = await fetch(url, { cache: "no-store" });
 
     if (!response.ok) {
-      // ESTO NOS DIRÁ EL ERROR REAL (404, 500, etc)
       const errorData = await response.json().catch(() => ({}));
       console.error("Error del servidor detallado:", {
         status: response.status,
         statusText: response.statusText,
-        mensajeServidor: errorData.message
+        mensajeServidor: errorData.message,
+         data: response,
+      url: `${API_URL}/api/pedidos`,
       });
       throw new Error(errorData.message || "No se pudo obtener el pedido");
     }

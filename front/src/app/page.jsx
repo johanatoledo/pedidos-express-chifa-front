@@ -1,13 +1,16 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import ProductCard from "@/components/ProductCard";
 import CartBar from "@/components/CartBar";
+import CheckoutPanel from "@/components/CheckoutPanel";
 import { productos } from "@/data/productos";
 
 export default function HomeMenuPage() {
   const [carrito, setCarrito] = useState([]);
   const [categoriaActiva, setCategoriaActiva] = useState("Todos");
+  const [checkoutAbierto, setCheckoutAbierto] = useState(false);
 
   useEffect(() => {
     const carritoGuardado = localStorage.getItem("carrito");
@@ -27,6 +30,11 @@ export default function HomeMenuPage() {
     categoriaActiva === "Todos"
       ? productos
       : productos.filter((producto) => producto.categoria === categoriaActiva);
+
+  const total = carrito.reduce(
+    (acc, item) => acc + item.precio * item.cantidad,
+    0
+  );
 
   const agregarProducto = (producto) => {
     setCarrito((prev) => {
@@ -48,6 +56,11 @@ export default function HomeMenuPage() {
     setCarrito((prev) => prev.filter((item) => item.id !== id));
   };
 
+  const limpiarCarrito = () => {
+    setCarrito([]);
+    setCheckoutAbierto(false);
+  };
+
   const obtenerCantidad = (id) => {
     const item = carrito.find((producto) => producto.id === id);
     return item ? item.cantidad : 0;
@@ -59,12 +72,16 @@ export default function HomeMenuPage() {
 
       <section className="mx-auto max-w-7xl px-6 py-10">
         <div className="text-center">
-          <h1 className="text-4xl font-black text-gray-950 md:text-5xl">
-            Nuestro Menú
+          <span className="rounded-full bg-red-100 px-4 py-2 text-sm font-black text-red-700">
+            Menú digital
+          </span>
+
+          <h1 className="mt-5 text-4xl font-black text-gray-950 md:text-5xl">
+            Chifa Express
           </h1>
 
           <p className="mx-auto mt-4 max-w-2xl text-gray-600">
-            Elige tus platos y bebidas favoritas. Tu pedido se preparará en
+            Escanea, elige tus platos, paga con Yape y retira tu pedido en
             aproximadamente 20 minutos.
           </p>
         </div>
@@ -98,7 +115,19 @@ export default function HomeMenuPage() {
         </div>
       </section>
 
-      <CartBar carrito={carrito} />
+      <CartBar
+        carrito={carrito}
+        onOpenCheckout={() => setCheckoutAbierto(true)}
+      />
+
+      {checkoutAbierto && (
+        <CheckoutPanel
+          carrito={carrito}
+          total={total}
+          onClose={() => setCheckoutAbierto(false)}
+          onPedidoCreado={limpiarCarrito}
+        />
+      )}
     </main>
   );
 }

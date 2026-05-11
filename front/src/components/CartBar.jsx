@@ -1,7 +1,6 @@
-import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
 
-export default function CartBar({ carrito }) {
+export default function CartBar({ carrito, onOpenCheckout }) {
   const cantidadProductos = carrito.reduce((acc, item) => acc + item.cantidad, 0);
 
   const total = carrito.reduce(
@@ -29,12 +28,12 @@ export default function CartBar({ carrito }) {
           </div>
         </div>
 
-        <Link
-          href="/carrito"
+        <button
+          onClick={onOpenCheckout}
           className="rounded-2xl bg-red-700 px-5 py-3 text-sm font-black text-white hover:bg-red-800"
         >
-          Ver pedido
-        </Link>
+          Pagar pedido
+        </button>
       </div>
     </div>
   );
