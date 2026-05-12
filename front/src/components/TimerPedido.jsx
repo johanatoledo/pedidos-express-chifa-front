@@ -48,7 +48,7 @@ export default function TimerPedido({
   // ===== MODO COMPACTO ADMIN =====
 
   if (compacto) {
-    if (estado === "listo" || tiempoRestante <= 0) {
+    if ( estado?.toLowerCase() === "listo" || tiempoRestante <= 0) {
       return (
         <div className="inline-flex items-center gap-2 rounded-xl bg-green-100 px-3 py-2 text-sm font-black text-green-700">
           <Check size={18} />
@@ -69,27 +69,6 @@ export default function TimerPedido({
 
   // ===== VISTA CLIENTE =====
 
-  if (estado === "entregado") {
-    return (
-      <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg">
-        <div className="flex items-center gap-4 bg-slate-900 px-5 py-4 text-white">
-          <div className="rounded-2xl bg-white/10 p-3">
-            <PackageCheck size={28} />
-          </div>
-
-          <div>
-            <p className="text-xs font-black uppercase tracking-widest text-slate-300">
-              Pedido entregado
-            </p>
-
-            <h3 className="mt-1 text-lg font-black">
-              Gracias por tu compra
-            </h3>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   if (estado === "listo" || tiempoRestante <= 0) {
     return (

@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import TimerPedido from "@/components/TimerPedido";
 import { obtenerPedido } from "@/services/pedidoService";
-import { CheckSquare } from "lucide-react";
+import { CheckSquare,PackageCheck } from "lucide-react";
 
  // ===== Funcion Detalle de pago del pedido =====
-
+  
 export default function PedidoDetallePage() {
   const params = useParams();
   const id = params?.id; 
@@ -66,6 +66,31 @@ export default function PedidoDetallePage() {
     typeof pedido.productos === "string"
       ? JSON.parse(pedido.productos)
       : pedido.productos;
+
+  if (pedido.estado?.toLowerCase() === "entregado") {
+    return (
+      <main className="min-h-screen bg-orange-50">
+        <Navbar />
+       <section className="mx-auto max-w-3xl px-6 py-10">
+          <div className="rounded-3xl bg-pedido-green p-8 shadow-xl">
+            <div className="flex w-full flex-grow items-center justify-center px-5 py-4 text-white">
+              <div className="flex flex-col items-center rounded-2xl  p-8 text-pedido-white ">
+               <PackageCheck size={200} />
+                <p className="text-xs text-center font-black uppercase tracking-widest text-slate-300">
+              Pedido entregado
+            </p>
+
+            <h1 className="mt-1 text-lg  text-center font-black">
+              Gracias por tu compra!
+            </h1>
+          </div>
+        </div>
+      </div>
+      </section>
+      </main>
+    );
+  }
+
 
   return (
     <main className="min-h-screen bg-orange-50">
