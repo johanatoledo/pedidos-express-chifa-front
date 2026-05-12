@@ -4,10 +4,13 @@ import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import TimerPedido from "@/components/TimerPedido";
 import { obtenerPedido } from "@/services/pedidoService";
+import { CheckSquare } from "lucide-react";
+
+ // ===== Funcion Detalle de pago del pedido =====
 
 export default function PedidoDetallePage() {
   const params = useParams();
-  const id = params?.id; // Usamos optional chaining por seguridad
+  const id = params?.id; 
 
   const [pedido, setPedido] = useState(null);
   const [cargando, setCargando] = useState(true);
@@ -70,49 +73,49 @@ export default function PedidoDetallePage() {
 
       <section className="mx-auto max-w-3xl px-6 py-10">
         <div className="rounded-3xl bg-white p-8 shadow-xl">
-          <p className="text-sm font-black uppercase text-green-700">
-            Pedido generado correctamente
-          </p>
+             {/* contenedor de check de pedido generado correctamente */}
+          <div className="flex w-full flex-grow items-center justify-center px-5 py-4">
+             <div className="flex flex-col items-center rounded-2xl bg-white/10 p-8 text-green-700 shadow-inner">
+              <CheckSquare 
+                size={80} 
+                className="mb-4 opacity-90" // Espacio debajo del icono
+              />
+             <h1 className="text-center font-black uppercase text-green-700">
+              Pedido generado correctamente
+            </h1>
+          </div>
+        </div>
+             {/* contenedor de con los datos del cliente y estado del pedido */}
+            <div className="mt-4 rounded-2xl border border-gray-100 p-5">
+              <ul>
+                 <li className=" font-black uppercase text-gray-900">Estado actual: {pedido.estado}</li>
+                  <li className=" text-gray-900">  Cliente: {pedido.cliente_nombre}</li>
+                  <li className="mt-2 text-gray-600">Id Pedido #{pedido.id} </li>
+              </ul>
+            </div>
+             {/* contenedor de detalle del pedido */}
+             <div className="mt-6">
+                 <p className="font-black text-gray-900">Detalle del pedido</p>
 
-          <h1 className="mt-2 text-2xl font-black text-gray-950">
-            Pedido #{pedido.id}
-          </h1>
-
-          <p className="mt-4 text-gray-600">
-            Guarda este número para retirar tu pedido en el restaurante.
-          </p>
-
+                  <ul className="mt-2 space-y-2">
+                    {productos.map((item) => (
+                      <li
+                       key={item.id}
+                       className="rounded-xl  px-3 py-2 text-sm font-bold text-gray-700"
+                      >
+                     <p>  {item.nombre} x {item.cantidad}</p>
+                     <p>  S/ {item.precio}  </p>  
+                    </li>
+                   ))}
+                  </ul>
+                     <p className="mt-2 font-black text-red-700">
+                       Total: S/ {Number(pedido.total).toFixed(2)}
+                     </p>
+              </div>
+              {/*contenedor con el estado del pedido */}
+              
           <div className="mt-8">
             <TimerPedido creadoEn={pedido.creado_en} estado={pedido.estado} />
-          </div>
-
-          <div className="mt-8 rounded-2xl border border-gray-100 p-5">
-            <p className="font-black text-gray-900">
-              Cliente: {pedido.cliente_nombre}
-            </p>
-
-            <p className="mt-2 font-black text-red-700">
-              Total: S/ {Number(pedido.total).toFixed(2)}
-            </p>
-
-            <p className="mt-2 text-gray-600">
-              Estado actual: {pedido.estado}
-            </p>
-          </div>
-
-          <div className="mt-6">
-            <h2 className="font-black text-gray-900">Detalle del pedido</h2>
-
-            <ul className="mt-3 space-y-2">
-              {productos.map((item) => (
-                <li
-                  key={item.id}
-                  className="rounded-xl bg-orange-50 px-4 py-3 text-sm font-bold text-gray-700"
-                >
-                  {item.nombre} x{item.cantidad}
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
       </section>

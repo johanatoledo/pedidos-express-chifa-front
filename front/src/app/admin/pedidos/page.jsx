@@ -41,20 +41,20 @@ export default function AdminPedidosPage() {
   };
 
   return (
-    <main className="min-h-screen bg-orange-50">
+    <main className="min-h-screen bg-pedido-cream">
       <Navbar />
 
       <section className="mx-auto max-w-7xl px-6 py-10">
         <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
-            <h1 className="text-4xl font-black text-gray-950 ">
+            <h1 className="text-4xl font-black text-pedido-dark ">
               Panel de pedidos
             </h1>
           </div>
 
           <button
             onClick={cargarPedidos}
-            className="rounded-2xl bg-red-700 px-5 py-3 font-black text-white hover:bg-gray-800"
+            className="rounded-2xl bg-pedido-red px-5 py-3 font-black text-pedido-white hover:bg-pedido-green"
           >
             Actualizar
           </button>

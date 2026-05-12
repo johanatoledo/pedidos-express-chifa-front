@@ -1,7 +1,7 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "Chifa Express",
+  title: "Pedido Express",
   description: "Menú digital para restaurante chifa",
 };
 

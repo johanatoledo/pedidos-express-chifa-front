@@ -1,16 +1,18 @@
 @import "tailwindcss";
 
-:root {
-  --background: #fff7ed;
-  --foreground: #171717;
+@theme {
+  /* Definimos la paleta 'pedido'*/
+  --color-pedido-red: #B91C1C;
+  --color-pedido-red2: #7F1D1D;
+  --color-pedido-gold: #D4A017;
+  --color-pedido-cream: #FFF7ED;
+  --color-pedido-dark: #1F1F1F;
+  --color-pedido-orange: #FEEBE7;
+  --color-pedido-white:#FFFFFF;
+  --color-pedido-green:#2A7033;
+  --color-pedido-gray:#222222;
 
-  --chifa-rojo: #b91c1c;
-  --chifa-rojo-oscuro: #7f1d1d;
-  --chifa-dorado: #d4a017;
-  --chifa-crema: #fff7ed;
-  --chifa-negro: #1f1f1f;
 }
-
 * {
   box-sizing: border-box;
 }

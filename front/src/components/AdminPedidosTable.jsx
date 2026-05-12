@@ -1,6 +1,23 @@
 "use client";
-
 import TimerPedido from "./TimerPedido";
+
+function EstadoBadge({ estado }) {
+  const estaListo = estado === "listo";
+
+  return (
+    <span
+      className={`inline-flex items-center gap-2 rounded-xl px-3 py-1 text-xs font-black uppercase ${
+        estaListo
+          ? "bg-green-100 text-green-700"
+          : "bg-yellow-100 text-yellow-800"
+      }`}
+    >
+      {estado}
+    </span>
+  );
+}
+
+
 
 export default function AdminPedidosTable({ pedidos, onEntregar }) {
   if (!pedidos.length) {
@@ -22,6 +39,7 @@ export default function AdminPedidosTable({ pedidos, onEntregar }) {
         <table className="w-full min-w-[900px] border-collapse">
           <thead className="bg-red-700 text-white">
             <tr>
+              <th className="p-4 text-left">Id Pedido</th>
               <th className="p-4 text-left">Cliente</th>
               <th className="p-4 text-left">Pedido</th>
               <th className="p-4 text-left">Total</th>
@@ -41,7 +59,10 @@ export default function AdminPedidosTable({ pedidos, onEntregar }) {
 
               return (
                 <tr key={pedido.id} className="border-b border-gray-100">
-                  <td className="p-4 font-black text-gray-900">
+                  <td className="p-4 uppercase font-black text-gray-900">
+                    {pedido.id}
+                  </td>
+                  <td className="p-4 uppercase font-black text-gray-900">
                     {pedido.cliente_nombre}
                   </td>
 
@@ -52,7 +73,7 @@ export default function AdminPedidosTable({ pedidos, onEntregar }) {
                   </td>
 
                   <td className="p-4 font-black text-red-700">
-                    S/ {Number(pedido.total).toFixed(2)}
+                    S/{Number(pedido.total).toFixed(2)}
                   </td>
 
                   <td className="p-4 text-gray-700">
@@ -60,20 +81,15 @@ export default function AdminPedidosTable({ pedidos, onEntregar }) {
                   </td>
 
                   <td className="p-4">
-                    <span className="rounded-xl bg-yellow-100 px-3 py-1 text-xs font-black uppercase text-yellow-800">
-                      {pedido.estado}
-                    </span>
+                    <EstadoBadge estado={pedido.estado} />
                   </td>
 
                   <td className="p-4">
-                    <div className="w-30">
-                      <TimerPedido
-                      
-                        creadoEn={pedido.creado_en}
-                        estado={pedido.estado}
-                        
-                      />
-                    </div>
+                    <TimerPedido
+                     creadoEn={pedido.creado_en}
+                     estado={pedido.estado}
+                     compacto
+                    />
                   </td>
 
                   <td className="p-4">
